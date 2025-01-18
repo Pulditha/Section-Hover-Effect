@@ -4,44 +4,186 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Section Hover Effect</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+        }
+
+        .bg-neutral-950 {
+            background-color: #1a1a1a;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Link Styling */
+        .link {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 2px solid #333;
+            transition: border-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .link:hover {
+            border-color: #fff;
+        }
+
+        .text h2 {
+            font-weight: bold;
+            margin: 0;
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+
+        .text p {
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+
+        .link:hover h2,
+        .link:hover p {
+            color: #fff;
+        }
+
+        /* Hover Image Styling */
+        .hover-img {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            transform: translate(-50%, -50%) scale(0) rotate(0deg);
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+        }
+        .topic{
+          color: #ccc;
+          font-size: xx-large;
+        }
+    </style>
 </head>
 <body>
-   
     <section class="bg-neutral-950 p-4 min-h-screen" id="projects">
         <div class="text-center mb-8">
-          <h1 class="text-3xl md:text-6xl font-bold myskills text-[#C4BCB3]">Projects</h1>
+            <h1 class="topic">Section Hover</h1>
         </div>
         <div class="container">
-          <div class="link mb-6 md:mb-8" data-img-src="img/bars.webp">
-            <div class="text">
-              <h2 class="text-lg md:text-2xl font-semibold text-white">BARS</h2>
-              <p class="text-sm md:text-xl text-gray-300">Chocolate E-commerce Platform with PHP Laravel, Tailwind CSS, MySQL</p>
+            <div class="link" data-img-src="img/Github_hover.png" data-tilt="10">
+                <div class="text">
+                    <h2>"Github"</h2>
+                    <p>Add me on Github 😉👇.</p>
+                </div>
             </div>
-          </div>
-          <div class="link mb-6 md:mb-8" data-img-src="img/budget_buddy.webp">
-            <div class="text">
-              <h2 class="text-lg md:text-2xl font-semibold text-white">Budget Buddy</h2>
-              <p class="text-sm md:text-xl text-gray-300">Second Hand Buying and Selling Website with more unique features that solve common household problems</p>
+            <div class="link" data-img-src="img/Linkedin_hover.png" data-tilt="-10">
+                <div class="text">
+                    <h2>"Linkedin"</h2>
+                    <p>Lets Connect ..</p>
+                </div>
             </div>
-          </div>
-          <div class="link mb-6 md:mb-8" data-img-src="img/hotel.webp">
-            <div class="text">
-              <h2 class="text-lg md:text-2xl font-semibold text-white">YAKA HOTEL</h2>
-              <p class="text-sm md:text-xl text-gray-300">This was my first ever website that was created... just basic plain HTML, CSS, and JS</p>
+            <div class="link" data-img-src="img/naruto_1.jpeg" data-tilt="10">
+                <div class="text">
+                    <h2>"Keep Moving Forward"</h2>
+                    <p>Progress, no matter how small, is still progress.</p>
+                </div>
             </div>
-          </div>
-          <div class="link" data-img-src="img/naruto.webp">
-            <div class="text">
-              <h2 class="text-lg md:text-2xl font-semibold text-white">Yet to be done...</h2>
-              <p class="text-sm md:text-xl text-gray-300">I am still learning more and more skills, This portfolio showcases all the skills used</p>
+            <div class="link" data-img-src="img/naruto_2.webp" data-tilt="-10">
+                <div class="text">
+                    <h2>"Create Your Own Path"</h2>
+                    <p>You don’t have to follow; you can lead.</p>
+                </div>
             </div>
-          </div>
         </div>
         <div class="hover-img"></div>
-      </section>
-      
+    </section>
 
-      
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const links = document.querySelectorAll(".link");
+            const hoverImg = document.querySelector(".hover-img");
 
+            links.forEach((link, index) => {
+                const textElements = link.querySelectorAll(".text h2, .text p");
+                const tiltAngle = link.getAttribute("data-tilt");
+
+                // Set up hover events
+                link.addEventListener("mouseenter", () => {
+                    const imgSrc = link.getAttribute("data-img-src");
+                    hoverImg.style.backgroundImage = `url(${imgSrc})`;
+
+                    // Show and tilt the hover image
+                    gsap.to(hoverImg, {
+                        duration: 0.3,
+                        scale: 1,
+                        rotate: tiltAngle,
+                        opacity: 1,
+                    });
+                });
+
+                link.addEventListener("mousemove", (e) => {
+                    const mouseX = e.clientX;
+                    const mouseY = e.clientY;
+
+                    // Position the hover image closer to the cursor
+                    gsap.to(hoverImg, {
+                        x: mouseX - 800,
+                        y: mouseY - 400,
+                    });
+
+                    // Animate text on hover
+                    gsap.to(textElements, {
+                        duration: 0.3,
+                        x: 5,
+                        opacity: 1,
+                        stagger: 0.1,
+                    });
+                });
+
+                link.addEventListener("mouseleave", () => {
+                    // Hide and reset the hover image
+                    gsap.to(hoverImg, {
+                        duration: 0.3,
+                        scale: 0,
+                        rotate: 0,
+                        opacity: 0,
+                    });
+
+                    // Reset text animation
+                    gsap.to(textElements, {
+                        duration: 0.3,
+                        x: 0,
+                        opacity: 0.8,
+                        stagger: 0.1,
+                    });
+                });
+
+                // Add click event
+                link.addEventListener("click", () => {
+                    const imgSrc = link.getAttribute("data-img-src");
+                    if (imgSrc) {
+                        window.open(imgSrc, "_blank");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
